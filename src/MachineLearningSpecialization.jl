@@ -1,6 +1,6 @@
 module MachineLearningSpecialization
 
-using LinearAlgebra, Statistics, Printf, DataFrames
+using LinearAlgebra, Statistics, Printf, DataFrames, Flux
 
 export compute_cost, compute_gradient, gradient_descent, run_gradient_descent,
     zscore_normalize_features, sigmoid, logistic_loss, compute_cost_logistic,
@@ -97,6 +97,6 @@ end
 sigmoid(z::AbstractVector) = 1.0 ./ (1.0 .+ exp.(-z))
 sigmoid(z) = 1.0 / (1.0 + exp(-z))
 
-
+struct Norm
 
 end
