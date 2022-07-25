@@ -7,7 +7,7 @@ using InteractiveUtils
 # ╔═╡ a4cda8b6-f289-11ec-0231-cb155b80b475
 begin
 	import Pkg
-	Pkg.develop(path="/Users/williamallen/src/MachineLearningSpecialization")
+	Pkg.develop(path=homedir()*"/src/MachineLearningSpecialization")
 	using MachineLearningSpecialization
 end
 
