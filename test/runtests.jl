@@ -51,4 +51,16 @@ using Test
     @test w ≈ [0.17380012926644225, 0.32007507822698794, 0.10776313414551181]
     @test b ≈ 0.3417989947913509
 
+    states = []
+    push!(states, State(100, true))
+    push!(states, State(0, false))
+    push!(states, State(0, false))
+    push!(states, State(0, false))
+    push!(states, State(0, false))
+    push!(states, State(40, true))
+    model = Model(states, [:left, :right, :either], 0.5)
+
+    @test bellman(model, 3) == 25
+    @test bellman(model, 5) == 20
+
 end

@@ -4,7 +4,7 @@ using LinearAlgebra, Statistics, Printf, DataFrames, Flux
 
 export compute_cost, compute_gradient, gradient_descent, run_gradient_descent,
     zscore_normalize_features, sigmoid, logistic_loss, compute_cost_logistic,
-    compute_gradient_logistic
+    compute_gradient_logistic, State, Model, bellman
 
 function compute_cost(X, y, w, b; λ = 0)
 	m = size(X)[1]
@@ -97,6 +97,31 @@ end
 sigmoid(z::AbstractVector) = 1.0 ./ (1.0 .+ exp.(-z))
 sigmoid(z) = 1.0 / (1.0 + exp(-z))
 
-struct Norm
+#struct Norm
+
+struct State
+    reward::Int
+    isTerminal::Bool
+end
+
+struct Model
+    states::Vector
+    actions::Vector
+    lambda::Float64
+end
+
+function bellman(model, state_num, action=:either, iter=0)
+    s = model.states[state_num]
+    if s.isTerminal
+        s.reward * model.lambda ^ iter
+    elseif action == :either
+        s.reward * model.lambda ^ iter +
+            max(bellman(model, state_num - 1, :left, iter+1),
+                bellman(model, state_num + 1, :right, iter+1))
+    else
+        new_state = action == :left ? state_num - 1 : state_num + 1
+        s.reward * model.lambda ^ iter + bellman(model, new_state, action, iter +1)
+    end
+end
 
 end
